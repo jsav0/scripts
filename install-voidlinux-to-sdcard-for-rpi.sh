@@ -1,5 +1,6 @@
 #!/bin/sh
 # n0
+# File: install-voidlinux-to-sdcard-for-rpi.sh
 # Date: 20201124 
 # Description: partition, format, and install void linux onto a memory card
 #              for use with rpis and other sbcs
