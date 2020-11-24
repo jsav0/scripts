@@ -1,11 +1,12 @@
 #!/bin/sh
 # n0
-# Description: partition, format, and install void linux onto a memory card
 # Date: 20201124 
+# Description: partition, format, and install void linux onto a memory card
+#              for use with rpis and other sbcs
 # a110w
-
 target=/dev/mmcblk0
-src=https://alpha.de.repo.voidlinux.org/live/current/void-rpi3-musl-PLATFORMFS-20191109.tar.xz
+remote_src=https://alpha.de.repo.voidlinux.org/live/current/void-rpi3-musl-PLATFORMFS-20191109.tar.xz
+local_src=/mnt/usb/void-rpi3-PLATFORMFS-20201124.tar.xz
 
 create_partitions(){
 	[ -z $target ] && echo "You must provide the target memory card to partition. " && exit 1
@@ -29,7 +30,8 @@ mount_filesystems(){
 }
 
 extract_voidfs(){
-	wget "$src" -qO - | tar xvfJp - -C /mnt/rpi/rootfs
+	#wget "$remote_src" -qO - | tar xvfJp - -C /mnt/rpi/rootfs # download remote source
+	tar xvfJp "$local_src" -C /mnt/rpi/rootfs # use local source
 	echo '/dev/mmcblk0p1 /boot vfat defaults 0 0' >> /mnt/rpi/rootfs/etc/fstab
 }
 
