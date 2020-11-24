@@ -5,6 +5,7 @@
 # Description: partition, format, and install void linux onto a memory card
 #              for use with rpis and other sbcs
 # a110w
+
 target=/dev/mmcblk0
 remote_src=https://alpha.de.repo.voidlinux.org/live/current/void-rpi3-musl-PLATFORMFS-20191109.tar.xz
 local_src=/mnt/usb/void-rpi3-PLATFORMFS-20201124.tar.xz
