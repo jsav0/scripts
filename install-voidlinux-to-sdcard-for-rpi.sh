@@ -8,7 +8,7 @@
 
 target=/dev/mmcblk0
 remote_src=https://alpha.de.repo.voidlinux.org/live/current/void-rpi3-musl-PLATFORMFS-20191109.tar.xz
-local_src=/mnt/usb/void-rpi3-PLATFORMFS-20201124.tar.xz
+local_src=$1
 
 create_partitions(){
 	[ -z $target ] && echo "You must provide the target memory card to partition. " && exit 1
