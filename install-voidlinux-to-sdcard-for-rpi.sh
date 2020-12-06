@@ -1,9 +1,8 @@
 #!/bin/sh
 # n0
 # File: install-voidlinux-to-sdcard-for-rpi.sh
-# Date: 20201124 
 # Description: partition, format, and install void linux onto a memory card
-#              for use with rpis and other sbcs
+#              for use with rpis 
 # a110w
 
 target=/dev/mmcblk0
@@ -11,7 +10,7 @@ remote_src=https://alpha.de.repo.voidlinux.org/live/current/void-rpi3-musl-PLATF
 local_src=$1
 
 create_partitions(){
-	[ -z $target ] && echo "You must provide the target memory card to partition. " && exit 1
+	[ ! -b $target ] && echo "You must provide the target memory card to partition. " && exit 1
 	parted --script "$target" \
 	mktable msdos \
 	mkpart primary fat32 2048s 256MB \
@@ -32,8 +31,11 @@ mount_filesystems(){
 }
 
 extract_voidfs(){
-	#wget "$remote_src" -qO - | tar xvfJp - -C /mnt/rpi/rootfs # download remote source
-	tar xvfJp "$local_src" -C /mnt/rpi/rootfs # use local source
+	[ -z $local_src ] && {
+		wget "$remote_src" -qO - | tar xvfJp - -C /mnt/rpi/rootfs 
+	} || {
+		tar xvfJp "$local_src" -C /mnt/rpi/rootfs # use local source
+	}
 	echo '/dev/mmcblk0p1 /boot vfat defaults 0 0' >> /mnt/rpi/rootfs/etc/fstab
 }
 
@@ -46,4 +48,4 @@ create_partitions && \
 create_filesystems && \
 mount_filesystems && \
 extract_voidfs && \
-unmount_filesystems
+unmount_filesystems && echo 'done!'
